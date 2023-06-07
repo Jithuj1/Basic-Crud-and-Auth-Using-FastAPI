@@ -1,31 +1,24 @@
 
 1)  SELECT 
-        r.id AS route_id, r.name, SUM(rp.distance) AS total_distance 
+        route.id AS route_id, route.name, SUM(route_points.distance) AS total_distance 
     FROM
-        routes_r
+        routes
     JOIN
-        route_point rp ON r.id = rp.route_id
+        route_point ON routes.id = route_point.route_id
     GROUP BY    
-        r.id, r.name;
+        route.id, route.name;
 
 2)  SELECT
         r.id as route_id, rp_src.stop_id AS source_stop_id, rp_dest.stop_id AS dest_stop_id
-    FROM
-        routes_r
-    JOIN
-        routes_points rp_src ON r.id = rp_src.route_id and rp_src.order = 1
-    JOIN
-        route_point rp_dest ON r.id = rp_dest.route_id AND rp_dest.order = (SELECT MAX ("order") FROM route_points where route_id = r.id)
-    ORDER BY 
-        r.id;
+    
 
 3)  SELECT
-        t.station_id AS station_id, s.name AS station_name, t.slot, t.time
+        station.station_id , station.name, times.slot, times.time
     FROM
-        times t 
+        station
     JOIN
-        station s ON t.station_id = s.id
+        times ON times.station_id = station.id
     WHERE
-        t.stot = 1
+        timse.stot = 1
     ORDER BY 
-        t.station_id, t.time;
+        times.time;
